@@ -1,0 +1,41 @@
+networks:
+  dev:
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - '80:80'
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+    depends_on:
+      - app
+      - api
+      - site
+      - cms
+    networks:
+      - dev
+
+  app:
+    build:
+      context: ./cicd-app
+    networks:
+      - dev
+
+  api:
+    build:
+      context: ./cicd-api
+    networks:
+      - dev
+
+  site:
+    build:
+      context: ./cicd-site
+    networks:
+      - dev
+
+  cms:
+    build:
+      context: ./cicd-cms
+    networks:
+      - dev
