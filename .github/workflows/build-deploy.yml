@@ -21,4 +21,3 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd cicd-deploy
-            git pull origin master
