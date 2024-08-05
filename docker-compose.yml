@@ -10,24 +10,24 @@ services:
       - './nginx.conf:/etc/nginx/nginx.conf'
     depends_on:
       - app
-      # - api
-      # - site
-      # - cms
-      # - cmsdb
+      - api
+      - site
+      - cms
+      - cmsdb
       - apidb
     networks:
       - dev
 
-  # cmsdb:
-  #   image: postgres:16
-  #   environment:
-  #     POSTGRES_USER: ${DB_USER}
-  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
-  #     POSTGRES_DB: ${APIDB_NAME}
-  #   volumes:
-  #     - cmsdb-data:/var/lib/postgresql/data
-  #   networks:
-  #     - dev
+  cmsdb:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${APIDB_NAME}
+    volumes:
+      - cmsdb-data:/var/lib/postgresql/data
+    networks:
+      - dev
 
   apidb:
     image: postgres:16
@@ -48,34 +48,34 @@ services:
     env_file:
       - ./cicd-app/.env
 
-  # api:
-  #   build:
-  #     context: ./cicd-api
-  #   depends_on:
-  #     - apidb
-  #   networks:
-  #     - dev
-  #   env_file:
-  #     - ./cicd-api/.env
+  api:
+    build:
+      context: ./cicd-api
+    depends_on:
+      - apidb
+    networks:
+      - dev
+    env_file:
+      - ./cicd-api/.env
 
-  # site:
-  #   build:
-  #     context: ./cicd-site
-  #   networks:
-  #     - dev
-  #   env_file:
-  #     - ./cicd-site/.env
+  site:
+    build:
+      context: ./cicd-site
+    networks:
+      - dev
+    env_file:
+      - ./cicd-site/.env
 
-  # cms:
-  #   build:
-  #     context: ./cdcd-cms
-  #   depends_on:
-  #     - cmsdb
-  #   networks:
-  #     - dev
-  #   env_file:
-  #     - ./cdcd-cms/.env
+  cms:
+    build:
+      context: ./cdcd-cms
+    depends_on:
+      - cmsdb
+    networks:
+      - dev
+    env_file:
+      - ./cdcd-cms/.env
 
 volumes:
-  # cmsdb-data:
+  cmsdb-data:
   apidb-data:
